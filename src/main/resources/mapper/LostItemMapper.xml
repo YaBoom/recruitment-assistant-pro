@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.lostandfound.mapper.LostItemMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap id="LostItemResultMap" type="com.example.lostandfound.model.LostItem">
+        <id property="id" column="id"/>
+        <result property="description" column="description"/>
+        <result property="lostTime" column="lost_time"/>
+        <result property="location" column="location"/>
+        <result property="contactInfo" column="contact_info"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    </resultMap>
+    
+    <!-- 插入失物记录 -->
+    <insert id="insert" parameterType="com.example.lostandfound.model.LostItem">
+        INSERT INTO lost_items (id, description, lost_time, location, contact_info, created_at, status)
+        VALUES (#{id}, #{description}, #{lostTime}, #{location}, #{contactInfo}, #{createdAt}, #{status})
+    </insert>
+    
+    <!-- 更新失物记录 -->
+    <update id="update" parameterType="com.example.lostandfound.model.LostItem">
+        UPDATE lost_items
+        SET description = #{description},
+            lost_time = #{lostTime},
+            location = #{location},
+            contact_info = #{contactInfo},
+            status = #{status}
+        WHERE id = #{id}
+    </update>
+    
+    <!-- 根据ID查询失物记录 -->
+    <select id="selectById" resultMap="LostItemResultMap">
+        SELECT id, description, lost_time, location, contact_info, created_at, status
+        FROM lost_items
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询所有失物记录 -->
+    <select id="selectAll" resultMap="LostItemResultMap">
+        SELECT id, description, lost_time, location, contact_info, created_at, status
+        FROM lost_items
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- 根据状态查询失物记录 -->
+    <select id="selectByStatus" resultMap="LostItemResultMap">
+        SELECT id, description, lost_time, location, contact_info, created_at, status
+        FROM lost_items
+        WHERE status = #{status}
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- 删除失物记录 -->
+    <delete id="deleteById">
+        DELETE FROM lost_items WHERE id = #{id}
+    </delete>
+    
+</mapper>

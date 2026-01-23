@@ -1,0 +1,61 @@
+# AI Lost and Found Assistant Configuration
+# 配置文件说明：本文件包含系统的核心配置参数
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: ai-lost-and-found-assistant
+  
+  # 数据源配置 - MySQL
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai_lost_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.lostandfound.model
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+# LLM 模型配置 - Ollama本地模型
+ollama:
+  base-url: http://localhost:11434
+  model-name: qwen2.5:7b  # 使用支持工具调用的模型
+  timeout: 180
+  temperature: 0.3
+
+# ChatMemory 配置
+chat-memory:
+  max-messages: 5
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.example.lostandfound: DEBUG
+    dev.langchain4j: DEBUG
+    org.mybatis: DEBUG
+
+# 应用配置
+app:
+  name: AI Lost and Found Assistant
+  version: 1.0.0
+  matching:
+    score-threshold: 0.3
+  prompt:
+    enabled: true
+    refresh-interval: 300

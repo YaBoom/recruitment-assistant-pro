@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.lostandfound.mapper.FoundItemMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap id="FoundItemResultMap" type="com.example.lostandfound.model.FoundItem">
+        <id property="id" column="id"/>
+        <result property="description" column="description"/>
+        <result property="foundTime" column="found_time"/>
+        <result property="location" column="location"/>
+        <result property="contactInfo" column="contact_info"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    </resultMap>
+    
+    <!-- 插入拾物记录 -->
+    <insert id="insert" parameterType="com.example.lostandfound.model.FoundItem">
+        INSERT INTO found_items (id, description, found_time, location, contact_info, created_at, status)
+        VALUES (#{id}, #{description}, #{foundTime}, #{location}, #{contactInfo}, #{createdAt}, #{status})
+    </insert>
+    
+    <!-- 更新拾物记录 -->
+    <update id="update" parameterType="com.example.lostandfound.model.FoundItem">
+        UPDATE found_items
+        SET description = #{description},
+            found_time = #{foundTime},
+            location = #{location},
+            contact_info = #{contactInfo},
+            status = #{status}
+        WHERE id = #{id}
+    </update>
+    
+    <!-- 根据ID查询拾物记录 -->
+    <select id="selectById" resultMap="FoundItemResultMap">
+        SELECT id, description, found_time, location, contact_info, created_at, status
+        FROM found_items
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询所有拾物记录 -->
+    <select id="selectAll" resultMap="FoundItemResultMap">
+        SELECT id, description, found_time, location, contact_info, created_at, status
+        FROM found_items
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- 根据状态查询拾物记录 -->
+    <select id="selectByStatus" resultMap="FoundItemResultMap">
+        SELECT id, description, found_time, location, contact_info, created_at, status
+        FROM found_items
+        WHERE status = #{status}
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- 删除拾物记录 -->
+    <delete id="deleteById">
+        DELETE FROM found_items WHERE id = #{id}
+    </delete>
+    
+</mapper>
