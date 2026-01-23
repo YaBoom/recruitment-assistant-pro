@@ -207,7 +207,7 @@ ai-lost-and-found-assistant/
 └── DATABASE_SETUP.md
 ```
 
-## 核心技术点学习指南
+## 核心技术点指导指南
 
 ### 1. ChatMemory - 对话状态管理
 
@@ -419,25 +419,3 @@ mybatis:
 - 捕获异常并记录日志
 - 向用户返回友好的错误信息
 - 保持系统稳定性
-
-### Q6: 如何提升AI响应速度？
-
-**A**: 参考 `PERFORMANCE_OPTIMIZATION.md` 文档，主要优化方向：
-
-**立即可实施**：
-1. 运行优化脚本：`optimize-ollama.bat`（Windows）或 `./optimize-ollama.sh`（Linux/Mac）
-2. 修改配置使用优化模型：`model-name: qwen3-fast`
-3. 重启应用
-
-**预期效果**：
-- 响应速度提升 30-50%
-- 系统提示词减少 70%
-- ChatMemory减少 67%（15→5条）
-
-**进一步优化**：
-- 使用更小的模型（qwen2.5:1.5b）
-- 启用GPU加速
-- 实现响应缓存
-- 添加流式输出
-
-详细说明请查看 `PERFORMANCE_OPTIMIZATION.md`
